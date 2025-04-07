@@ -1,9 +1,19 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer
 
 app = FastAPI()
+
+# CORS middleware to fix frontend access issues
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # or use ["http://127.0.0.1:5500"] for stricter security
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Define request body structure
 class InputText(BaseModel):
